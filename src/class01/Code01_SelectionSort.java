@@ -8,7 +8,7 @@ public class Code01_SelectionSort {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		// 0 ~ N-1  找到最小值，在哪，放到0位置上
+		// 0 ~ N-1  找到最小值，在哪，放到0 位置上
 		// 1 ~ n-1  找到最小值，在哪，放到1 位置上
 		// 2 ~ n-1  找到最小值，在哪，放到2 位置上
 		for (int i = 0; i < arr.length - 1; i++) {
