@@ -1,6 +1,10 @@
 package class01;
 
+import cn.hutool.core.date.StopWatch;
+import cn.hutool.core.lang.Console;
+
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public class Code01_SelectionSort {
 
@@ -88,7 +92,9 @@ public class Code01_SelectionSort {
 
 	// for test
 	public static void main(String[] args) {
-		int testTime = 500000;
+		StopWatch stopWatch = new StopWatch("对数器测试");
+		stopWatch.start("选择排序");
+		int testTime = 500_000;
 		int maxSize = 100;
 		int maxValue = 100;
 		boolean succeed = true;
@@ -105,6 +111,8 @@ public class Code01_SelectionSort {
 			}
 		}
 		System.out.println(succeed ? "Nice!" : "Fucking fucked!");
+		stopWatch.stop();
+		Console.log("{}", stopWatch.prettyPrint(TimeUnit.SECONDS));
 
 		int[] arr = generateRandomArray(maxSize, maxValue);
 		printArray(arr);
