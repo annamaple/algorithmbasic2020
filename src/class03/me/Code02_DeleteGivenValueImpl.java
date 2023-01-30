@@ -25,4 +25,23 @@ public class Code02_DeleteGivenValueImpl extends Code02_DeleteGivenValue {
         }
         return head;
     }
+    
+    public static Node removeGivenValue(Node head, int num) {
+        // 先找到返回的头部节点
+        while (head != null && head.value == num) {
+            head = head.next;
+        }
+        Node pre = head;
+        Node cur = head;
+        while (cur != null) {
+            if (cur.value == num) {
+                pre.next = cur.next;
+            } else {
+                // 注意这一步
+                pre = cur;
+            }
+            cur = cur.next;
+        }
+        return head;
+    }
 }
