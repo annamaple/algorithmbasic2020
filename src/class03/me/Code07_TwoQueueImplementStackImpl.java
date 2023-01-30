@@ -29,9 +29,8 @@ public class Code07_TwoQueueImplementStackImpl extends Code07_TwoQueueImplementS
             if (queue.isEmpty()) {
                 throw new RuntimeException("this stack is empty");
             }
-            int size = queue.size();
-            for (int i = 0; i < size - 1; i++) {
-                help.add(queue.remove());
+            while (queue.size() > 1) {
+                help.offer(queue.poll());
             }
             E ans = queue.poll();
             swapQueueAndHelp();
@@ -42,9 +41,8 @@ public class Code07_TwoQueueImplementStackImpl extends Code07_TwoQueueImplementS
             if (queue.isEmpty()) {
                 throw new RuntimeException("this stack is empty");
             }
-            int size = queue.size();
-            for (int i = 0; i < size - 1; i++) {
-                help.add(queue.remove());
+            while (queue.size() > 1) {
+                help.offer(queue.poll());
             }
             E ans = queue.remove();
             help.add(ans);
