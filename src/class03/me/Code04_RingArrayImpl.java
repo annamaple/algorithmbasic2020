@@ -1,4 +1,6 @@
-package class03;
+package class03.me;
+
+import class03.Code04_RingArray;
 
 /**
  * @author lei
