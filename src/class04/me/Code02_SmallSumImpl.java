@@ -46,7 +46,7 @@ public class Code02_SmallSumImpl extends Code02_SmallSum {
             while (p1 <= mid && p2 <= right) {
                 // [p2, right]个数
                 res += arr[p1] < arr[p2] ? arr[p1] * (right - p2 + 1) : 0;
-                help[i++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++];
+                help[i++] = arr[p1] < arr[p2] ? arr[p1++] : arr[p2++];
             }
             while (p1 <= mid) {
                 help[i++] = arr[p1++];
