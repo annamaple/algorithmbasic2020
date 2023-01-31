@@ -147,6 +147,10 @@ public class Code01_MergeSortImpl extends Code01_MergeSort {
                     merge(arr, left, mid, right);
                     left = right + 1;
                 }
+                // 防止整数溢出, 如: Integer.MAX_VALUE * 2变为负数
+                if (mergeSize > length / 2) {
+                    break;
+                }
                 mergeSize <<= 1;
             }
         }
