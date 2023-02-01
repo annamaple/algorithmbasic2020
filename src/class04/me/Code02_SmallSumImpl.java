@@ -35,7 +35,7 @@ public class Code02_SmallSumImpl extends Code02_SmallSum {
                     + merge(arr, left, mid, right);
         }
 
-        // 4 1 2 | 5 6 9
+        // 1 2 4 | 2 5 6 9
         // p1      p2
         int merge(int[] arr, int left, int mid, int right) {
             int[] help = new int[right - left + 1];
@@ -44,7 +44,7 @@ public class Code02_SmallSumImpl extends Code02_SmallSum {
             int p2 = mid + 1;
             int res = 0;
             while (p1 <= mid && p2 <= right) {
-                // [p2, right]个数
+                // [p2, right]个数 arr[p1] 与 arr[p2] 相等时移动p2++;
                 res += arr[p1] < arr[p2] ? arr[p1] * (right - p2 + 1) : 0;
                 help[i++] = arr[p1] < arr[p2] ? arr[p1++] : arr[p2++];
             }
