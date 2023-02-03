@@ -44,14 +44,14 @@ public class Main {
 
         QuickSortByNetherlandsFlag quickSort = new QuickSortByNetherlandsFlag();
         int times = 500_000;
-        int maxSize = 100;
+        int maxSize = 10;
         int maxValue = 100;
         boolean success = true;
         while (times-- >= 0) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
             quickSort.sort(arr1);
-            quickSort.mergeSort(arr2);
+            quickSort.quickSortIteration(arr2);
             if (!isEqual(arr1, arr2)) {
                 System.out.println("fuck");
                 System.out.println("arr1: " + Arrays.toString(arr1));

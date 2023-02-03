@@ -3,6 +3,8 @@ package class05.me;
 import class05.Code02_PartitionAndQuickSort;
 import cn.hutool.core.util.ArrayUtil;
 
+import java.util.Stack;
+
 // TODO Lei: 学完了所有排序, 写一个排序工具类
 public class Code02_PartitionAndQuickSortImpl extends Code02_PartitionAndQuickSort {
 
@@ -264,5 +266,60 @@ public class Code02_PartitionAndQuickSortImpl extends Code02_PartitionAndQuickSo
                 arr[left + i] = help[i];
             }
         }
+        
+        // 使用对象保存left right
+        public static class Pair<K, V>{
+            K key;
+            V value;
+
+            public Pair(K key, V value) {
+                this.key = key;
+                this.value = value;
+            }
+
+            public K getKey() {
+                return key;
+            }
+
+            public void setKey(K key) {
+                this.key = key;
+            }
+
+            public V getValue() {
+                return value;
+            }
+
+            public void setValue(V value) {
+                this.value = value;
+            }
+        }
+        
+
+        // 随机快排 迭代实现
+        public void quickSortIteration(int[] arr) {
+            if (arr == null || arr.length <= 1) {
+                return;
+            }
+            // 使用栈保存每一步递归调用时的left right
+            swap(arr, arr.length - 1, (int) (Math.random() * (arr.length)));
+            int[] equalArea = netherlandsFlag(arr, 0, arr.length - 1);
+            Stack<Pair<Integer, Integer>> stack = new Stack<>();
+            stack.push(new Pair<>(0, equalArea[0] - 1));
+            stack.push(new Pair<>(equalArea[1] + 1, arr.length - 1));
+            while (!stack.isEmpty()) {
+                Pair<Integer, Integer> partitionArea = stack.pop();
+                int left = partitionArea.getKey();
+                int right = partitionArea.getValue();
+                // base case
+                if (left >= right) {
+                    continue;
+                }
+                swap(arr, right, left + (int) (Math.random() * (right - left + 1)));
+                equalArea = netherlandsFlag(arr, left, right);
+                stack.push(new Pair<>(left, equalArea[0] - 1));
+                stack.push(new Pair<>(equalArea[1] + 1, right));
+            }
+        }
     }
+    
 }
