@@ -3,6 +3,7 @@ package class05.me;
 import class05.Code02_PartitionAndQuickSort;
 import cn.hutool.core.util.ArrayUtil;
 
+// TODO Lei: 学完了所有排序, 写一个排序工具类
 public class Code02_PartitionAndQuickSortImpl extends Code02_PartitionAndQuickSort {
 
     public static void main(String[] args) {
@@ -98,6 +99,170 @@ public class Code02_PartitionAndQuickSortImpl extends Code02_PartitionAndQuickSo
             int temp = arr[a];
             arr[a] = arr[b];
             arr[b] = temp;
+        }
+    }
+
+
+    public static class NetherlandsFlag {
+        // 荷兰国旗问题1.0:
+        // 给定一个数组 arr ，和一个整数 num 。
+        // 把 <= num 的数放在数组的左边，大于num的数放在数组的右边。
+        // 返回index：左第一个<=num的位置
+        public int netherlandsSimple(int[] arr, int num) {
+            return netherlandsSimple(arr, 0, arr.length - 1, num);
+        }
+
+        // 荷兰国旗问题1.0:
+        // 转换：
+        // 给定一个数组 arr 区间[left, right]，和一个整数 num 。
+        // 把 <= num 的数放在数组的左边，大于num的数放在数组的右边。
+        // 返回index：左第一个<=num的位置
+        int netherlandsSimple(int[] arr, int left, int right, int num) {
+            if (arr == null || arr.length == 0) {
+                return -1;
+            }
+            if (left > right) {
+                return -1;
+            }
+            int less = left - 1;
+            int index = left;
+            while (index <= right) {
+                if (arr[index] <= num) {
+                    swap(arr, index++, ++less);
+                } else {
+                    index++;
+                }
+            }
+            return less;
+        }
+
+        // 荷兰国旗问题1.0:
+        // 转换：
+        // 给定一个数组 arr 区间[left, right]，和一个整数 num = arr[right]。
+        // 把 <= num 的数放在数组的左边，大于num的数放在数组的右边。
+        // 返回index：=num的位置
+        int netherlandsSimple(int[] arr, int left, int right) {
+            int less = netherlandsSimple(arr, left, right - 1, arr[right]);
+            swap(arr, right, less + 1);
+            return less + 1;
+        }
+
+
+        // 荷兰国旗问题2.0:
+        // 给定一个数组 arr ，和一个整数 num 。
+        // 把小于 num 的数放在数组的左边，等于 num 的数放在中间，大于num的数放在数组的右边。
+        // 返回[a1, a2] a1,a2为arr中的下标, 表示该区间的元素的值等于num
+        int[] netherlandsStand(int[] arr, int num) {
+            return netherlandsFlagStand(arr, 0, arr.length - 1, num);
+        }
+
+
+        // 荷兰国旗问题2.0:
+        // 转换
+        // 给定一个数组 arr，给定区间[left, right] ，和一个整数 num 。
+        // 把小于 num 的数放在数组的左边，等于 num 的数放在中间，大于num的数放在数组的右边。
+        // 返回[a1, a2] a1,a2为arr中的下标, 表示该区间的元素的值等于num
+        int[] netherlandsFlagStand(int[] arr, int left, int right, int num) {
+            if (arr == null || arr.length == 0) {
+                return new int[]{-1, -1};
+            }
+            if (left > right) {
+                return new int[]{-1, -1};
+            }
+            int less = left - 1;
+            int more = right + 1;
+            int index = left;
+            while (index < more) {
+                if (arr[index] < num) {
+                    swap(arr, ++less, index++);
+                } else if (arr[index] == num) {
+                    index++;
+                } else {
+                    swap(arr, --more, index);
+                }
+            }
+            return new int[]{less + 1, more - 1};
+        }
+
+        // 荷兰国旗问题2.0:
+        // 转换
+        // 给定一个数组 arr，给定区间[left, right] ，和一个整数 num = arr[right] 。
+        // 把小于 num 的数放在数组的左边，等于 num 的数放在中间，大于num的数放在数组的右边。
+        // 返回[a1, a2] a1,a2为arr中的下标, 表示该区间的元素的值等于num
+        int[] netherlandsFlagStand(int[] arr, int left, int right) {
+            // 返回的值等于arr[right]的区间
+            int[] equalArr = netherlandsFlagStand(arr, left, right - 1, arr[right]);
+            swap(arr, ++equalArr[1], right);
+            return equalArr;
+        }
+
+
+        void swap(int[] arr, int a, int b) {
+            if (a < 0) {
+                System.out.println(a);
+            }
+            int temp = arr[a];
+            arr[a] = arr[b];
+            arr[b] = temp;
+        }
+    }
+
+
+    public static class QuickSortByNetherlandsFlag extends NetherlandsFlag {
+
+        public void sort(int[] arr) {
+            if (arr == null || arr.length <= 1) {
+                return;
+            }
+            partition(arr, 0, arr.length - 1);
+        }
+
+        void partition(int[] arr, int left, int right) {
+            if (left >= right) {
+                return;
+            }
+            // 随机快排
+            swap(arr, left + (int) (Math.random() * (right - left + 1)), right);
+            int[] equalArr = netherlandsFlagStand(arr, left, right);
+            partition(arr, 0, equalArr[0] - 1);
+            partition(arr, equalArr[1] + 1, right);
+        }
+
+        void mergeSort(int[] arr) {
+            if (arr == null || arr.length <= 1) {
+                return;
+            }
+            process(arr, 0, arr.length - 1);
+        }
+
+        void process(int[] arr, int left, int right) {
+            if (left == right) {
+                return;
+            }
+            int mid = left + ((right - left) >> 1);
+            process(arr, left, mid);
+            process(arr, mid + 1, right);
+            merge(arr, left, mid, right);
+        }
+        
+        // 请严格保证调用merge的参数合法
+        void merge(int[] arr, int left, int mid, int right) {
+            int p1 = left;
+            int p2 = mid + 1;
+            int[] help = new int[right - left + 1];
+            int i = 0;
+            while (p1 <= mid && p2 <= right) {
+                help[i++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++];
+            }
+            while (p1 <= mid) {
+                help[i++] = arr[p1++];
+            }
+            while (p2 <= right) {
+                help[i++] = arr[p2++];
+            }
+            while (--i >= 0) {
+                arr[left + i] = help[i];
+            }
         }
     }
 }
