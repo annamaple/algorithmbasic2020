@@ -47,6 +47,14 @@ public class Code02_PartitionAndQuickSortImpl extends Code02_PartitionAndQuickSo
             if (left >= right) {
                 return;
             }
+            // 随机快排
+            // [x, x, 1, 2, 3, 4]
+            //  0  1  2  3  4  5
+            // left = 3 right = 5; 
+            // right - left = 2; 
+            // (int) (Math.random() * 2) => [0, 2); 
+            // (int) (Math.random() * (2 + 1)) => [0, 2 + 1) ==> 整数范围[0, 2] 
+            swap(arr, left + (int) (Math.random() * (right - left + 1)), right);
             int[] equalArea = netherlandsFlag(arr, left, right);
             // 此处可能存在equalArea[0] - 1 < 0, 因此base case 有left < right条件
             partition(arr, left, equalArea[0] - 1);
