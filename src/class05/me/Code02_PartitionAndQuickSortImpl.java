@@ -224,7 +224,7 @@ public class Code02_PartitionAndQuickSortImpl extends Code02_PartitionAndQuickSo
             // 随机快排
             swap(arr, left + (int) (Math.random() * (right - left + 1)), right);
             int[] equalArr = netherlandsFlagStand(arr, left, right);
-            partition(arr, 0, equalArr[0] - 1);
+            partition(arr, left, equalArr[0] - 1);
             partition(arr, equalArr[1] + 1, right);
         }
 
