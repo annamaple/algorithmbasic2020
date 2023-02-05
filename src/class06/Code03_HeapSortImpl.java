@@ -51,10 +51,14 @@ public class Code03_HeapSortImpl extends Code03_HeapSort {
             }
             // 构建堆(最大堆)
             // 1) 从上往下构建 time: O(NlogN)
-            for (int i = 0; i < arr.length; i++) {
-                heapInsert(arr, i);
-            }
+//            for (int i = 0; i < arr.length; i++) {
+//                heapInsert(arr, i);
+//            }
             // 2) 从下往上构建 time: O(N)
+            for (int i = arr.length - 1; i >= 0; i--) {
+                heapify(arr, i, arr.length);
+            }
+
             // 依次弹出到对应位置
             int size = arr.length;
             swap(arr, 0, --size);
