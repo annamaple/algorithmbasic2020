@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 /**
  * 加强堆 
- * <br> 系统提供的PriorityQueue只有对的基础功能(poll() offer() size() peek())
+ * <br> 系统提供的PriorityQueue只有堆的基础功能(poll() offer() size() peek())
  * <br> 无法获取堆中指定元素对应数组的下标位置
  * <br> 无法在修改堆中某个元素的值后, 使堆继续可用
  * @author lei
