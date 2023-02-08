@@ -8,8 +8,11 @@ import java.util.List;
 public class Code02_EveryStepShowBoss {
 
 	public static class Customer {
+		// 顾客标识
 		public int id;
+		// 购买数
 		public int buy;
+		// 入池时间
 		public int enterTime;
 
 		public Customer(int v, int b, int o) {
