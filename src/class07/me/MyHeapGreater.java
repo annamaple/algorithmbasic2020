@@ -1,11 +1,15 @@
 package class07.me;
 
+import cn.hutool.core.lang.Console;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.PriorityQueue;
+import java.util.Scanner;
 
 /**
  * 加强堆 
@@ -15,6 +19,34 @@ import java.util.Objects;
  * @author lei
  */
 public class MyHeapGreater<T>{
+
+    public static void main(String[] args) {
+        int num;
+        Scanner scanner = new Scanner(System.in);
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        MyHeapGreater<Integer> myMinHeap = new MyHeapGreater<>(Comparator.comparingInt(a -> -a));
+        while (true) {
+            num = scanner.nextInt();
+            if (num == 0) {
+                break;
+            }
+            minHeap.offer(num);
+            myMinHeap.offer(num);
+            if (!Objects.equals(minHeap.peek(), myMinHeap.peek())) {
+                Console.log("fuck minHeap: {}; myMinHeap: {}", minHeap.peek(), myMinHeap.peek());
+            }
+        }
+        if (minHeap.size() != myMinHeap.heapSize) {
+            Console.log("fuck minHap.size = {}; myMinSize = {}", minHeap.size(), myMinHeap.heapSize);
+        }
+        while (!minHeap.isEmpty()) {
+            int a = minHeap.poll();
+            int b = myMinHeap.poll();
+            if (a != b) {
+                Console.log("fuck a = {}, b = {}", a, b);
+            }
+        }
+    }
 
     private static class Inner<T>{
         T val;
@@ -73,10 +105,14 @@ public class MyHeapGreater<T>{
         indexMap.put(val, heapSize);
         heapInsert(heapSize++);
     }
+
+    private T peek() {
+        return data.get(0).val;
+    }
     
     public T poll() {
         Inner<T> ans = data.get(0);
-        swap(0, heapSize);
+        swap(0, heapSize - 1);
         indexMap.remove(ans);
         data.remove(--heapSize);
         heapify(0);
