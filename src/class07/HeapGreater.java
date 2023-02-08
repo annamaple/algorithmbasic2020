@@ -54,10 +54,17 @@ public class HeapGreater<T> {
 	}
 
 	public void remove(T obj) {
+		// 堆最后一个节点
 		T replace = heap.get(heapSize - 1);
+		// 删除节点在堆中的下标
 		int index = indexMap.get(obj);
+		// 在反向索引表中删除
 		indexMap.remove(obj);
+		// 在堆中删除
 		heap.remove(--heapSize);
+		// 如果删除的元素不是堆中最后一个元素需要：
+		// 堆中最后一个元素放入删除的位置 反向索引中同时更新下标位置
+		// 进行比较并交换
 		if (obj != replace) {
 			heap.set(index, replace);
 			indexMap.put(replace, index);
