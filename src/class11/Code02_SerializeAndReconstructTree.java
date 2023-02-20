@@ -153,6 +153,7 @@ public class Code02_SerializeAndReconstructTree {
 		}
 		Node head = generateNode(levelList.poll());
 		Queue<Node> queue = new LinkedList<Node>();
+		// 这一步处理边界很妙
 		if (head != null) {
 			queue.add(head);
 		}
