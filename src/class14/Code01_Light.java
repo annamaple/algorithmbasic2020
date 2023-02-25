@@ -69,6 +69,7 @@ public class Code01_Light {
 		int light = 0;
 		for (char c : str) {
 			if (c == 'X') {
+				// 向上取整。学到了
 				light += (cur + 2) / 3;
 				cur = 0;
 			} else {
