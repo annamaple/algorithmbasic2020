@@ -7,6 +7,32 @@ import java.util.Map.Entry;
 // no negative weight
 public class Code06_Dijkstra {
 
+	public static void main(String[] args) {
+		// (1)--1--(2)--5--(4)
+		//   3\            /
+		//    (3)---------2
+		//
+		Node node1 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+		Edge edge1 = new Edge(1, node1, node2);
+		Edge edge5 = new Edge(5, node2, node3);
+		Edge edge3 = new Edge(3, node1, node3);
+		Edge edge2 = new Edge(2, node3, node4);
+		node1.edges.add(edge1);
+		node1.edges.add(edge3);
+		node2.edges.add(edge5);
+		node3.edges.add(edge2);
+		node1.nexts.add(node2);
+		node1.nexts.add(node3);
+		node2.nexts.add(node4);
+		node3.nexts.add(node4);
+		Node from = node1;
+		dijkstra2(from, 4).forEach((k, v) -> System.out.println("node: " + k.value + ", distance: " + v));
+		System.out.println("my dijkstra");
+	}
+
 	public static HashMap<Node, Integer> dijkstra1(Node from) {
 		HashMap<Node, Integer> distanceMap = new HashMap<>();
 		distanceMap.put(from, 0);
