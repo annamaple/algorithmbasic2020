@@ -16,6 +16,36 @@ public class Code06_NetworkDelayTimeImpl extends Code06_NetworkDelayTime {
         int n = 4;
         int k = 2;
         System.out.println(new Code06_NetworkDelayTimeImpl().networkDelayTime(times, n, k));
+        System.out.println(new Code06_NetworkDelayTimeImpl().networkDelayTimeP(times, n, k));
+    }
+
+
+    // 优化map
+    public int networkDelayTimeP(int[][] times, int n, int k) {
+        if (times == null || n < 0 || k < 0) return -1;
+        // 下标：node 值：nexts
+        List<List<int[]>> nodeMap = new ArrayList<>(n + 1);
+        for (int i = 0; i <= n; i++) {
+            nodeMap.add(new ArrayList<>());
+        }
+        for (int[] time : times) {
+            nodeMap.get(time[0]).add(time);
+        }
+        Heap1 heap = new Heap1(n);
+        int ans = -1;
+        int countNum = 0;
+        heap.addOrUpdateOrIgnore(k, 0);
+        while (!heap.isEmpty()) {
+            // cur[0] node ; cur[1] distance
+            int[] cur = heap.poll();
+            countNum++;
+            ans = Math.max(ans, cur[1]);
+            List<int[]> nexts = nodeMap.get(cur[0]);
+            for (int[] next : nexts) {
+                heap.addOrUpdateOrIgnore(next[1], cur[1] + next[2]);
+            }
+        }
+        return ans;
     }
 
     public int networkDelayTime(int[][] times, int n, int k) {
