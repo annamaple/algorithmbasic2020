@@ -2,7 +2,9 @@ package class19;
 
 import java.util.HashMap;
 
-// 本题测试链接：https://leetcode.com/problems/stickers-to-spell-word
+// 本题测试链接：
+// https://leetcode.com/problems/stickers-to-spell-word
+// https://www.lintcode.com/problem/1081/
 public class Code03_StickersToSpellWord {
 
 	public static int minStickers1(String[] stickers, String target) {
