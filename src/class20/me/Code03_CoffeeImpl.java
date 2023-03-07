@@ -1,8 +1,10 @@
 package class20.me;
 
 import class20.Code03_Coffee;
+import cn.hutool.core.date.StopWatch;
 
 import java.util.PriorityQueue;
+import java.util.concurrent.TimeUnit;
 
 
 public class Code03_CoffeeImpl extends Code03_Coffee {
@@ -17,10 +19,17 @@ public class Code03_CoffeeImpl extends Code03_Coffee {
             int n = (int) (Math.random() * 7) + 1;
             int a = (int) (Math.random() * 7) + 1;
             int b = (int) (Math.random() * 10) + 1;
+            StopWatch stopWatch = new StopWatch("coffee 测试第 [" + i + "] 次 ------------- ");
+            stopWatch.start(" right ");
             int ans1 = right(arr, n, a, b);
+            stopWatch.stop();
             // int ans2 = minTime1(arr, n, a, b);
+            stopWatch.start(" new Coffee().drink ");
             int ans2 = new Coffee().drink(arr, n, a, b);
+            stopWatch.stop();
+            stopWatch.start(" minTime2 ");
             int ans3 = minTime2(arr, n, a, b);
+            stopWatch.stop();
             if (ans1 != ans2 || ans2 != ans3) {
                 System.out.println("Oops");
                 printArray(arr);
@@ -31,6 +40,7 @@ public class Code03_CoffeeImpl extends Code03_Coffee {
                 System.out.println("===============");
                 break;
             }
+            System.out.println(stopWatch.prettyPrint(TimeUnit.MILLISECONDS));
         }
         System.out.println("测试结束");
 
@@ -73,7 +83,7 @@ public class Code03_CoffeeImpl extends Code03_Coffee {
 //            return process(cup, a, b, 0, 0, 0);
             return p(cup, a, b, 0, 0);
         }
-        
+
         int minCleanTimeDp(int[] cup, int a, int b) {
             // 清洗机可以开始清洗的时间
             int maxClean = 0;
@@ -82,7 +92,7 @@ public class Code03_CoffeeImpl extends Code03_Coffee {
             }
             int[][] dp = new int[cup.length + 1][maxClean + 1];
             // int[cup.length + 1][...] = 0;
-            for (int index = cup.length - 1; index >= 0 ; index--) {
+            for (int index = cup.length - 1; index >= 0; index--) {
                 for (int washTime = 0; washTime <= maxClean; washTime++) {
                     // 洗
                     int selfWash = Math.max(cup[index], washTime) + a;
@@ -118,7 +128,7 @@ public class Code03_CoffeeImpl extends Code03_Coffee {
             int p2 = Math.max(selfVolatilize, restClean);
             return Math.min(p1, p2);
         }
-        
+
         // 由我复杂的递归含义（反面教材）：当前做完决定，把当前做完的值传递给后面，baseCase为答案
         // 当前来到了index号杯子
         // 从左到右模型
