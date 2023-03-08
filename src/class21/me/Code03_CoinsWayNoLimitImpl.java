@@ -78,13 +78,13 @@ public class Code03_CoinsWayNoLimitImpl extends Code03_CoinsWayNoLimit {
 
         public int coinsWayDpBestPro(int[] arr, int aim) {
             if (arr == null || arr.length == 0) return 0;
-            int row = arr.length + 1;
+            // int row = arr.length + 1;
             int col = aim + 1;
             // 行从row - 1到0向上
             int[] dp = new int[col];
             dp[0] = 1;
             for (int index = arr.length - 1; index >= 0; index--) {
-                for (int rest = aim; rest >= 0; rest--) {
+                for (int rest = 0; rest <= aim; rest++) {
                     int way = dp[rest];
                     if (rest - arr[index] >= 0) {
                         way += dp[rest - arr[index]];
