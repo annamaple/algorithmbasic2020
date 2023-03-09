@@ -33,6 +33,7 @@ public class Code05_BobDieImpl extends Code05_BobDie {
         public double knightProbability(int n, int k, int r, int c) {
             // Write your code here.
             if (n <= 0) return 0;
+            // 8的k次方，很容易越界
             return (double) process(n, r, c, k) / Math.pow(8, k);
         }
 
@@ -42,9 +43,8 @@ public class Code05_BobDieImpl extends Code05_BobDie {
         public double knightProbabilityDp(int n, int k, int r, int c) {
             // Write your code here.
             if (n <= 0) return 0;
-            double all = Math.pow(8, k);
             int high = k + 1;
-            int[][][] dp = new int[n][n][high];
+            double[][][] dp = new double[n][n][high];
             for (int x = 0; x < n; x++) {
                 for (int y = 0; y < n; y++) {
                     dp[x][y][0] = 1;
@@ -53,22 +53,22 @@ public class Code05_BobDieImpl extends Code05_BobDie {
             for (int rest = 1; rest <= k; rest++) {
                 for (int x = 0; x < n; x++) {
                     for (int y = 0; y < n; y++) {
-                        int p1 = getV(dp, x - 1, y + 2, rest - 1);
-                        int p2 = getV(dp, x - 1, y - 2, rest - 1);
-                        int p3 = getV(dp, x + 1, y + 2, rest - 1);
-                        int p4 = getV(dp, x + 1, y - 2, rest - 1);
-                        int p5 = getV(dp, x - 2, y - 1, rest - 1);
-                        int p6 = getV(dp, x - 2, y + 1, rest - 1);
-                        int p7 = getV(dp, x + 2, y - 1, rest - 1);
-                        int p8 = getV(dp, x + 2, y + 1, rest - 1);
-                        dp[x][y][rest] = p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8;
+                        double p1 = getV(dp, x - 1, y + 2, rest - 1);
+                        double p2 = getV(dp, x - 1, y - 2, rest - 1);
+                        double p3 = getV(dp, x + 1, y + 2, rest - 1);
+                        double p4 = getV(dp, x + 1, y - 2, rest - 1);
+                        double p5 = getV(dp, x - 2, y - 1, rest - 1);
+                        double p6 = getV(dp, x - 2, y + 1, rest - 1);
+                        double p7 = getV(dp, x + 2, y - 1, rest - 1);
+                        double p8 = getV(dp, x + 2, y + 1, rest - 1);
+                        dp[x][y][rest] = (p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8) / 8D;
                     }
                 }
             }
-            return (double) dp[r][c][k] / all;
+            return dp[r][c][k];
         }
 
-        public int getV(int[][][] dp, int x, int y, int z) {
+        public double getV(double[][][] dp, int x, int y, int z) {
             if (x < 0 || y < 0 || z < 0 || x >= dp.length || y >= dp[0].length || z >= dp[0][0].length) {
                 return 0;
             }
