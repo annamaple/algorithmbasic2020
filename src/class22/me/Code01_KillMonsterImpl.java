@@ -18,7 +18,9 @@ public class Code01_KillMonsterImpl extends Code01_KillMonster {
             int K = (int) (Math.random() * KMax);
 //            double ans1 = right(N, M, K);
 //            double ans1 = new KillMonster().kill(N, M, K);
-            double ans1 = new KillMonster().killDp(N, M, K);
+//            double ans1 = new KillMonster().killDp(N, M, K);
+//            double ans1 = new KillMonster().killDpPro(N, M, K);
+            double ans1 = new KillMonster().killDpBest(N, M, K);
             double ans2 = dp1(N, M, K);
             double ans3 = dp2(N, M, K);
             if (ans1 != ans2 || ans1 != ans3) {
@@ -51,7 +53,8 @@ public class Code01_KillMonsterImpl extends Code01_KillMonster {
             }
             double all = Math.pow(M + 1, K);
             long[][] dp = new long[K + 1][N + 1];
-            // dp[0][...] = 0;
+            // dp[0][1...] = 0;
+            dp[0][0] = 1;
             for (int restTimes = 1; restTimes <= K; restTimes++) {
                 dp[restTimes][0] = (long) Math.pow(M + 1, restTimes);
                 for (int restHp = 1; restHp <= N; restHp++) {
@@ -63,6 +66,42 @@ public class Code01_KillMonsterImpl extends Code01_KillMonster {
                 }
             }
             return (double) dp[K][N] / all;
+        }
+
+        public double killDpPro(int N, int M, int K) {
+            if (N < 1 || M < 1 || K < 1) return 0;
+            double all = Math.pow(M + 1, K);
+            int[][] dp = new int[K + 1][N + 1];
+            // dp[0][1.....] = 1
+            dp[0][0] = 1;
+            for (int restTime = 1; restTime <= K; restTime++) {
+                dp[restTime][0] = (int) Math.pow(M + 1, restTime);
+                for (int restHp = 1; restHp <= N; restHp++) {
+                    dp[restTime][restHp] = dp[restTime - 1][restHp] + dp[restTime][restHp - 1];
+                    dp[restTime][restHp] -= restHp - M - 1 > 0 ? dp[restTime - 1][restHp - M - 1] : dp[restTime - 1][0];
+                }
+            }
+            return (double) dp[K][N] / all;
+        }
+
+        public double killDpBest(int N, int M, int K) {
+            if (N < 1 || M < 1 || K < 1) return 0;
+            // 优化times
+            long[] doneDp = new long[N + 1];
+            long[] dp = new long[N + 1];
+            long[] temp;
+            doneDp[0] = 1;
+            for (int restTime = 1; restTime <= K; restTime++) {
+                dp[0] = (long) Math.pow(M + 1, restTime);
+                for (int restHp = 1; restHp <= N; restHp++) {
+                    dp[restHp] = doneDp[restHp] + dp[restHp - 1];
+                    dp[restHp] -= restHp - M - 1 > 0 ? doneDp[restHp - M - 1] : doneDp[0];
+                }
+                temp = doneDp;
+                doneDp = dp;
+                dp = temp;
+            }
+            return (double) doneDp[N] / (double) doneDp[0];
         }
 
         // restDp: 当前血量
