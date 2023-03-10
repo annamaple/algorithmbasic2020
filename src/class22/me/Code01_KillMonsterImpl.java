@@ -56,7 +56,7 @@ public class Code01_KillMonsterImpl extends Code01_KillMonster {
                 dp[restTimes][0] = (long) Math.pow(M + 1, restTimes);
                 for (int restHp = 1; restHp <= N; restHp++) {
                     long way = 0;
-                    for (int damage = 1; damage <= M; damage++) {
+                    for (int damage = 0; damage <= M; damage++) {
                         way += (restHp - damage) > 0 ? dp[restTimes - 1][restHp - damage] : Math.pow(M + 1, restTimes - 1);
                     }
                     dp[restTimes][restHp] = way;
