@@ -23,6 +23,7 @@ public class Code02_MinCoinsNoLimitImpl extends Code02_MinCoinsNoLimit {
                 System.out.println(aim);
                 System.out.println(ans1);
                 System.out.println(ans2);
+                System.out.println(ans3);
                 break;
             }
         }
@@ -35,7 +36,7 @@ public class Code02_MinCoinsNoLimitImpl extends Code02_MinCoinsNoLimit {
         // aim： 目标值
         // 每一张面值使用不限量, 返回组合成aim的使用的最少张叔
         public int minCoins(int[] arr, int aim) {
-            if (arr == null || arr.length == 0) {
+            if (arr == null || aim == 0) {
                 return 0;
             }
             return process(arr, 0, aim);
@@ -50,7 +51,10 @@ public class Code02_MinCoinsNoLimitImpl extends Code02_MinCoinsNoLimit {
             }
             int ans = Integer.MAX_VALUE;
             for (int zhang = 0; zhang * arr[index] <= rest; zhang++) {
-                ans = Math.min(ans, process(arr, index + 1, rest - zhang * arr[index]));
+                int next =  process(arr, index + 1, rest - zhang * arr[index]);
+                if (next != Integer.MAX_VALUE) {
+                    ans = Math.min(ans, zhang + next);
+                }
             }
             return ans;
         }
