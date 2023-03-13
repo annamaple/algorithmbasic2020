@@ -36,7 +36,7 @@ public class Code03_SplitNumberImpl extends Code03_SplitNumber {
             if (n <= 0) return 0;
             // pro [1, n / 2]
             // rest [(n + 1) / 2, n]
-            int[][] dp = new int[n / 2 + 1][n + 1];
+            int[][] dp = new int[n + 1][n + 1];
             for (int i = 1; i < dp.length; i++) {
                 dp[i][i] = 1;
             }
@@ -55,20 +55,20 @@ public class Code03_SplitNumberImpl extends Code03_SplitNumber {
 
         int waysDpPro(int n) {
             if (n <= 0) return 0;
-            int[][] dp = new int[n / 2 + 1][n + 1];
+            int[][] dp = new int[n + 1][n + 1];
             for (int i = 1; i < dp.length; i++) {
                 dp[i][i] = 1;
             }
             for (int pre = dp.length - 2; pre >= 1; pre--) {
-                // (2, 3) ==> 1
-                // (2, 4) ==> (2, 2)
-                // (2, 5) ==> (2, 3)
-                // (3, 5) ==> (2, 2)
-                // (2, 6) ==> (2, 4) (3, 3)
-                // (2, 5) ==> (2, 5) (3, 4)
                 for (int rest = pre + 1; rest <= n; rest++) {
+                    // dp[pre][rest] = dp[pre + 1][rest];
+                    // dp[pre][rest] += dp[pre][rest - pre];
+                    // (2, 6) => (2 4) (3 3) 1
+                    // (3, 6) => (3 3) 1
                     dp[pre][rest] = dp[pre + 1][rest];
-                    dp[pre][rest] += dp[pre][rest - pre];
+                    if (rest - pre >= pre) {
+                        dp[pre][rest] += dp[pre][rest - pre];
+                    }
                 }
             }
             return dp[1][n];
