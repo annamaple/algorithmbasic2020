@@ -9,6 +9,16 @@ import java.util.stream.Collectors;
 public class Code03_TopologicalOrderBFSImpl extends Code03_TopologicalOrderBFS {
 
 
+    public static class DirectedGraphNode {
+        public int label;
+        public ArrayList<DirectedGraphNode> neighbors;
+
+        public DirectedGraphNode(int x) {
+            label = x;
+            neighbors = new ArrayList<DirectedGraphNode>();
+        }
+    }
+
     // 拓扑排序隐藏含义：有向无环图
     // 方法1：入度法。每次去入度为0的节点，并把其后序节点的入度减1
     public static class Topological {
