@@ -141,6 +141,13 @@ public class Code01_MonotonousStack {
 		System.out.println();
 	}
 
+	public static void printArray(int[][] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			printArray(arr[i]);
+		}
+		System.out.println();
+	}
+
 	public static void main(String[] args) {
 		int size = 10;
 		int max = 20;
