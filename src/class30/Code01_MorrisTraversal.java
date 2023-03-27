@@ -4,8 +4,8 @@ public class Code01_MorrisTraversal {
 
 	public static class Node {
 		public int value;
-		Node left;
-		Node right;
+		public Node left;
+		public Node right;
 
 		public Node(int data) {
 			this.value = data;
