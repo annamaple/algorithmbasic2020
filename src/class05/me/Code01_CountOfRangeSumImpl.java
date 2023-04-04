@@ -52,6 +52,7 @@ public class Code01_CountOfRangeSumImpl extends Code01_CountOfRangeSum {
                 // [sum[p] - upper, sum[p] - lower]
                 long min = sum[p] - upper;
                 long max = sum[p] - lower;
+                // 窗口
                 while (windowL <= mid && sum[windowL] < min) {
                     windowL++;
                 }
