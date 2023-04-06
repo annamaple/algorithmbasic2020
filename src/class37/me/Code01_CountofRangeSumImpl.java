@@ -15,7 +15,7 @@ public class Code01_CountofRangeSumImpl extends Code01_CountofRangeSum {
             int lower = (int) (Math.random() * varible) - (int) (Math.random() * varible);
             int upper = lower + (int) (Math.random() * varible);
             int ans1 = countRangeSum1(test, lower, upper);
-            int ans2 = new CountOfRangeSumSegTree().countOfRangeSum(test, lower, upper);
+            int ans2 = new CountOfRangeSumSortedMap().countOfRangeSum(test, lower, upper);
             if (ans1 != ans2) {
                 printArray(test);
                 System.out.println(lower);
@@ -90,7 +90,7 @@ public class Code01_CountofRangeSumImpl extends Code01_CountofRangeSum {
         }
 
     }
-    
+
     private static class CountOfRangeSumSegTree {
 
         public int countOfRangeSum(int[] arr, int lower, int upper) {
@@ -238,5 +238,28 @@ public class Code01_CountofRangeSumImpl extends Code01_CountofRangeSum {
 
 
         }
+    }
+
+    private static class CountOfRangeSumSortedMap {
+
+        public int countOfRangeSum(int[] arr, int lower, int upper) {
+            if (arr == null || upper < lower) return 0;
+            int N = arr.length;
+            int[] sum = new int[N + 1];
+            for (int i = 0; i < N; i++) {
+                sum[i + 1] = sum[i] + arr[i];
+            }
+            SortList<Integer> sortTable = new SBTree<>();
+            // 每次找到已i结尾的子数组有多少累加和在[lower, upper]
+            // sum[i] - sum[j] in [lower, upper]; j < i;
+            // sum[j] in [sum[i] - lower, sum[i] - upper]
+            int count = 0;
+            for (int i = 0; i <= N; i++) {
+                count += sortTable.between(sum[i] - upper, sum[i] - lower);
+                sortTable.put(sum[i]);
+            }
+            return count;
+        }
+        
     }
 }
