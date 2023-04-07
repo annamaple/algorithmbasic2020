@@ -250,7 +250,8 @@ public class Code01_CountofRangeSumImpl extends Code01_CountofRangeSum {
                 sum[i + 1] = sum[i] + arr[i];
             }
             // SortList<Integer> sortTable = new SBTree<>();
-            SortList<Integer> sortTable = new AVLTree<>();
+            // SortList<Integer> sortTable = new AVLTree<>();
+            SortList<Integer> sortTable = new SkipList<>();
             // 每次找到已i结尾的子数组有多少累加和在[lower, upper]
             // sum[i] - sum[j] in [lower, upper]; j < i;
             // sum[j] in [sum[i] - lower, sum[i] - upper]
