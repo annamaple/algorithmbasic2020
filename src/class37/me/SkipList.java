@@ -9,7 +9,7 @@ public class SkipList<K extends Comparable<K>> implements SortList<K> {
     public int smaller(K k) {
         int ans = 0;
         SLNode<K> cur = this.head.nexts.get(0);
-        while (cur != null) {
+        while (cur != null && cur.k.compareTo(k) < 0) {
             ans += cur.count;
             cur = cur.nexts.get(0);
         }
@@ -18,12 +18,18 @@ public class SkipList<K extends Comparable<K>> implements SortList<K> {
 
     @Override
     public int smallerAndEquals(K k) {
-        return 0;
+        int ans = 0;
+        SLNode<K> cur = this.head.nexts.get(0);
+        while (cur != null && cur.k.compareTo(k) <= 0) {
+            ans += cur.count;
+            cur = cur.nexts.get(0);
+        }
+        return ans;
     }
 
     @Override
     public void put(K k) {
-
+        add(k);
     }
 
     private static final double PROBABILITY = 0.5D;
