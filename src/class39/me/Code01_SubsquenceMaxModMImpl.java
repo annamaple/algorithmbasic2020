@@ -2,8 +2,6 @@ package class39.me;
 
 import class39.Code01_SubsquenceMaxModM;
 
-import java.util.Map;
-
 
 // 给定一个非负数组arr，和一个正数m。 返回arr的所有子序列中累加和%m之后的最大值。
 public class Code01_SubsquenceMaxModMImpl extends Code01_SubsquenceMaxModM {
@@ -16,7 +14,8 @@ public class Code01_SubsquenceMaxModMImpl extends Code01_SubsquenceMaxModM {
         System.out.println("test begin");
         for (int i = 0; i < testTime; i++) {
             int[] arr = generateRandomArray(len, value);
-            int ans1 = dp1(arr, m);
+            // my solution
+            int ans1 = dp2(arr, m);
             int ans2 = max2(arr, m);
             int ans3 = max3(arr, m);
             int ans4 = max4(arr, m);
@@ -80,5 +79,32 @@ public class Code01_SubsquenceMaxModMImpl extends Code01_SubsquenceMaxModM {
             dp[N][sum] = sum / m;
         }
         return -1;
+    }
+
+    // 使用模m作为数组的下标长度
+    public static int dp2(int[] arr, int m) {
+        // boolean dp[i][j]: arr[0,i]的子序列的和模m能否构成j
+        // 两种情况：
+        // 1. 不包含i能构成j: dp[i - 1][j] = true 
+        // 2. 包含i能构成j: cur = arr[i] % m;
+        //      dp[i - 1][j >= cur ? j - cur : j + m - cur] = true
+        int N = arr.length;
+        boolean[][] dp = new boolean[N][m];
+        for (int i = 0; i < N; i++) {
+            dp[i][0] = true;
+        }
+        dp[0][arr[0] % m] = true;
+        for (int i = 1; i < N; i++) {
+            for (int j = 0; j < m; j++) {
+                int cur = arr[i] % m;
+                dp[i][j] = dp[i - 1][j] || dp[i - 1][j >= cur ? j - cur : m + j - cur];
+            }
+        }
+        for (int mod = m - 1; mod > 0; mod--) {
+            if (dp[N - 1][mod]) {
+                return mod;
+            }
+        }
+        return 0;
     }
 }
