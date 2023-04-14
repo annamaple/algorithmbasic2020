@@ -27,18 +27,16 @@ public class Code01_SubsquenceMaxModMImpl extends Code01_SubsquenceMaxModM {
     }
 
     public static int max1(int[] arr, int m) {
-        int[] ans = new int[1];
-        int sum = 0;
-        f(arr, 0, sum, m, ans);
-        return ans[0];
+        return f(arr, m, 0, 0);
     }
 
-    private static void f(int[] arr, int i, int sum, int m, int[] ans) {
+    // 从左到右尝试所有子序列的可能, 返回mod M最大值
+    private static int f(int[] arr, int m, int i, int sum) {
         if (i == arr.length) {
-            ans[0] = Math.max(ans[0], sum % m);
-            return;
+            return sum % m;
         }
-        f(arr, i + 1, sum, m, ans);
-        f(arr, i + 1, sum + arr[i], m, ans);
+        int p1 = f(arr, m, i + 1, sum);
+        int p2 = f(arr, m, i + 1, sum + arr[i]);
+        return Math.max(p1, p2);
     }
 }
