@@ -42,6 +42,7 @@ public class Code01_SubsquenceMaxModMImpl extends Code01_SubsquenceMaxModM {
         return Math.max(p1, p2);
     }
 
+    // 使用了maxSum作为数组的下标, 适用于arr的累加和不大的情况
     public static int dp1(int[] arr, int m) {
         // boolean dp[i][sum]: arr[0...i]中的子序列的和能否为sum
         // 两种情况: 
