@@ -81,7 +81,7 @@ public class Code01_SubsquenceMaxModMImpl extends Code01_SubsquenceMaxModM {
         return -1;
     }
 
-    // 使用模m作为数组的下标长度
+    // 使用模m作为数组的下标长度(适用于m不大, 尤其是arr[i]很大)
     public static int dp2(int[] arr, int m) {
         // boolean dp[i][j]: arr[0,i]的子序列的和模m能否构成j
         // 两种情况：
@@ -106,5 +106,11 @@ public class Code01_SubsquenceMaxModMImpl extends Code01_SubsquenceMaxModM {
             }
         }
         return 0;
+    }
+    
+    // 当m很大且arr[i]也很大但arr.length不大
+    public static int f3(int[] arr, int m) {
+        // TODO Lei: 分治
+        return -1;
     }
 }
