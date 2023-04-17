@@ -1,6 +1,9 @@
 package class39.me;
 
 import class39.Code01_SubsquenceMaxModM;
+import cn.hutool.core.util.StrUtil;
+
+import java.util.TreeSet;
 
 
 // 给定一个非负数组arr，和一个正数m。 返回arr的所有子序列中累加和%m之后的最大值。
@@ -15,11 +18,12 @@ public class Code01_SubsquenceMaxModMImpl extends Code01_SubsquenceMaxModM {
         for (int i = 0; i < testTime; i++) {
             int[] arr = generateRandomArray(len, value);
             // my solution
-            int ans1 = dp2(arr, m);
+            int ans1 = f3(arr, m);
             int ans2 = max2(arr, m);
             int ans3 = max3(arr, m);
             int ans4 = max4(arr, m);
             if (ans1 != ans2 || ans2 != ans3 || ans3 != ans4) {
+                System.out.println(StrUtil.format("my: {}, ans: {}", ans1, ans4));
                 System.out.println("Oops!");
                 return;
             }
@@ -107,10 +111,35 @@ public class Code01_SubsquenceMaxModMImpl extends Code01_SubsquenceMaxModM {
         }
         return 0;
     }
-    
+
+    // 重点学习分治的思想
     // 当m很大且arr[i]也很大但arr.length不大
     public static int f3(int[] arr, int m) {
-        // TODO Lei: 分治
-        return -1;
+        int N = arr.length;
+        if (arr.length == 1) return arr[0] % m;
+        int mid = (N - 1) >> 1;
+        // 有序表中存入的是左右数组子序列模m的值
+        TreeSet<Integer> sortSet1 = new TreeSet<>();
+        process4(arr, 0, mid, 0, m, sortSet1);
+        TreeSet<Integer> sortSet2 = new TreeSet<>();
+        process4(arr, mid + 1, N - 1, 0, m, sortSet2);
+        // 如何把左右数组子序列整合起来 -> 整合时会有很多结果只要找最满足的结果即可
+        int ans = 0;
+        // 有尝试函数可知有序标记中必有0
+        for (int leftMod : sortSet1) {
+            // 最满足：最接近m - 1的值
+            ans = Math.max(ans, leftMod + sortSet2.floor(m - 1 - leftMod));
+        }
+        return ans;
+    }
+
+    // 枚举arr[index~end]的所有子序列的累加和%m的值，存入有序表sortSet中
+    public static void process4(int[] arr, int index, int end, int sum, int m, TreeSet<Integer> sortSet) {
+        if (index == end + 1) {
+            sortSet.add(sum % m);
+            return;
+        }
+        process4(arr, index + 1, end, sum, m, sortSet);
+        process4(arr, index + 1, end, sum + arr[index], m, sortSet);
     }
 }
