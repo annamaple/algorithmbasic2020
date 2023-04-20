@@ -2,7 +2,7 @@ package class45.me;
 
 import class45.Code03_LongestCommonSubstringConquerByHeight;
 
-// 最长回文字符串
+// 最长公共字符串
 // dp + 空间优化（重要）
 // DC3了解
 public class Code03_LongestCommonSubstringConquerByHeightImpl extends Code03_LongestCommonSubstringConquerByHeight {
@@ -77,26 +77,24 @@ public class Code03_LongestCommonSubstringConquerByHeightImpl extends Code03_Lon
         }
         char[] str1 = s1.toCharArray(), str2 = s2.toCharArray();
         int N = str1.length, M = str2.length;
-        int ans = Integer.MIN_VALUE;
         int row = N - 1, col = M - 1;
+        int ans = 0;
         while (row >= 0) {
             int len = 0;
-            int j = 0;
-            for (int i = row; i < N && j < M; i++) {
-                len = str1[i] == str2[j++] ? len + 1 : 0;
+            for (int j = 0, i = row; i < N && j < M; i++, j++) {
+                len = str1[i] == str2[j] ? len + 1 : 0;
                 ans = Math.max(ans, len);
             }
             row--;
         }
         while (col >= 0) {
             int len = 0;
-            int i = 0;
-            for (int j = col; j < M && i < N; j++) {
-                len = str1[i++] == str2[j] ? len + 1 : 0;
+            for (int i = 0, j = col; i < N && j < M; i++, j++) {
+                len = str1[i] == str2[j] ? len + 1 : 0;
                 ans = Math.max(ans, len);
             }
             col--;
         }
-        return ans;
+        return ans + 1;
     }
 }
