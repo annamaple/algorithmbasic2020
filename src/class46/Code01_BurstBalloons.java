@@ -1,6 +1,7 @@
 package class46;
 
 // 本题测试链接 : https://leetcode.com/problems/burst-balloons/
+// 打气球的最大分数
 public class Code01_BurstBalloons {
 
 	public static int maxCoins0(int[] arr) {
